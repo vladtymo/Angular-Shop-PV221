@@ -9,6 +9,6 @@ main {
     /* background-color: aquamarine; */
     flex-grow: 1;
     width: 85%;
-    margin: 10px auto;
+    margin: 20px auto 10px;
     padding-top: 64px;
 }
