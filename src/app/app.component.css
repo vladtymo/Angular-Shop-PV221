@@ -1,0 +1,11 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    /* viewport-height */
+    min-height: 100vh;
+}
+
+main {
+    background-color: aquamarine;
+    flex-grow: 1;
+}
