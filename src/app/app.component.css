@@ -6,6 +6,9 @@
 }
 
 main {
-    background-color: aquamarine;
+    /* background-color: aquamarine; */
     flex-grow: 1;
+    width: 85%;
+    margin: 10px auto;
+    padding-top: 64px;
 }
