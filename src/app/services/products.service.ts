@@ -15,4 +15,10 @@ export class ProductsService {
   getAll(): Observable<ProductResponseModel> {
     return this.http.get<ProductResponseModel>(api);
   }
+
+  delete(id: number): void {
+    // TODO: refactor api path
+    //this.http.delete(api + "products/delete" + id);
+    console.log("Deleting product id: " + id);
+  }
 }
