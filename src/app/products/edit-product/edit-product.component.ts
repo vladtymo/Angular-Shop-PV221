@@ -1,5 +1,4 @@
-import { Component } from '@angular/core';
-import { Location } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -9,9 +8,11 @@ import { FormBuilder, FormControl, FormsModule, ReactiveFormsModule } from '@ang
 import { ProductsService } from '../../services/products.service';
 import { ProductModel } from '../../services/products';
 import { MatIconModule } from '@angular/material/icon';
+import { Location } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-add-product',
+  selector: 'app-edit-product',
   standalone: true,
   imports: [
     MatFormFieldModule,
@@ -22,10 +23,10 @@ import { MatIconModule } from '@angular/material/icon';
     ReactiveFormsModule,
     MatIconModule
   ],
-  templateUrl: './add-product.component.html',
-  styleUrl: './add-product.component.css'
+  templateUrl: './edit-product.component.html',
+  styleUrl: './edit-product.component.css'
 })
-export class AddProductComponent {
+export class EditProductComponent implements OnInit {
   form = this.fb.group({
     name: [''],
     price: [0],
@@ -34,10 +35,30 @@ export class AddProductComponent {
     categoryId: [0],
     inStock: [false]
   });
+  id: number = 0;
 
   constructor(private fb: FormBuilder,
     private service: ProductsService,
-    private location: Location) { }
+    private location: Location,
+    private route: ActivatedRoute) { }
+
+  ngOnInit(): void {
+
+    this.id = +(this.route.snapshot.paramMap.get('id') ?? 0);
+
+    this.service.get(this.id).subscribe(res => {
+      console.log(res);
+
+      this.form.setValue({
+        name: res.title,
+        price: res.price,
+        discount: res.discountPercentage,
+        categoryId: 0,
+        description: res.description,
+        inStock: false
+      });
+    });
+  }
 
   onSubmit(): void {
     if (!this.form.valid) return;

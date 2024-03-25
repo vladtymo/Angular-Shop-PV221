@@ -2,7 +2,7 @@
     <button (click)="back()" mat-icon-button>
         <mat-icon>arrow_back</mat-icon>
     </button>
-    <span>Create New Product</span>
+    <span>Edit Product</span>
 </h1>
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
     <mat-form-field>
@@ -41,6 +41,6 @@
 
     <div class="buttons-block">
         <button type="reset" mat-raised-button>Cancel</button>
-        <button type="submit" mat-raised-button color="accent">Create</button>
+        <button type="submit" mat-raised-button color="accent">Edit</button>
     </div>
 </form>

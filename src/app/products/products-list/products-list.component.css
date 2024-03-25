@@ -1,0 +1,18 @@
+.item-image {
+    height: 60px;
+    width: 120px;
+    transition: 0.2s;
+}
+
+.item-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 6px;
+    vertical-align: middle;
+    margin: 6px 0;
+}
+
+.item-image:hover {
+    transform: scale(2);
+}

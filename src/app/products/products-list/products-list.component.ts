@@ -6,6 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteConfirmationDialogComponent } from '../delete-confirmation-dialog/delete-confirmation-dialog.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-products-list',
@@ -15,11 +16,12 @@ import { DeleteConfirmationDialogComponent } from '../delete-confirmation-dialog
   styleUrl: './products-list.component.css'
 })
 export class ProductsListComponent implements OnInit {
-  displayedColumns: string[] = ["id", "name", "price", "rating", "actions"];
+  displayedColumns: string[] = ["image", "id", "name", "price", "rating", "actions"];
   products: ProductModel[] = [];
 
   constructor(private productsService: ProductsService,
-    public dialog: MatDialog) { }
+    public dialog: MatDialog,
+    private router: Router) { }
 
   ngOnInit(): void {
     this.productsService.getAll().subscribe(res => this.products = res.products);
@@ -31,6 +33,11 @@ export class ProductsListComponent implements OnInit {
       if (res === true)
         this.productsService.delete(id);
     });
+  }
+
+  onEdit(id: number): void {
+    // open edit page
+    this.router.navigate(["/edit", id]);
   }
 
   openConfirmDialog() {

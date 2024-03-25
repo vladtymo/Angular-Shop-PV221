@@ -16,6 +16,10 @@ export class ProductsService {
     return this.http.get<ProductResponseModel>(api);
   }
 
+  get(id: number): Observable<ProductModel> {
+    return this.http.get<ProductModel>(api + "/" + id);
+  }
+
   create(item: ProductModel): void {
     //this.http.post<ProductModel>(api, item);
     console.log("Creating product:", item);

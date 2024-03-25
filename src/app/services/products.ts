@@ -1,9 +1,11 @@
 export interface ProductModel {
     id: number;
-    name: string;
+    title: string;
     categoryId: number;
-    discount: number;
+    discountPercentage: number;
     price: number;
+    thumbnail: string | null;
+    description: string | null;
 }
 
 export interface ProductResponseModel {
