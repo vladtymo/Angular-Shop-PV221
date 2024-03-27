@@ -10,6 +10,16 @@ export interface ProductModel {
     inStock: boolean;
 }
 
+export interface CreateProductModel {
+    name: string;
+    categoryId: number;
+    discount: number;
+    price: number;
+    description: string | null;
+    inStock: boolean;
+    image: File | null;
+}
+
 // export interface ProductResponseModel {
 //     products: ProductModel[];
 //     limit: number;

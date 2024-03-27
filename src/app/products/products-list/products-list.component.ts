@@ -22,8 +22,7 @@ export class ProductsListComponent implements OnInit {
 
   constructor(private productsService: ProductsService,
     public dialog: MatDialog,
-    private router: Router,
-    private changeDetectorRefs: ChangeDetectorRef) { }
+    private router: Router) { }
 
   ngOnInit(): void {
     this.productsService.getAll().subscribe(res => {

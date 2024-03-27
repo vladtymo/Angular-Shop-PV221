@@ -64,7 +64,7 @@ export class EditProductComponent implements OnInit {
     if (!this.form.valid) return;
 
     const item = this.form.value as ProductModel;
-    this.service.create(item);
+    //this.service.edit(item);
   }
 
   back(): void {

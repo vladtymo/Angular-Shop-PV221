@@ -37,6 +37,14 @@
         <textarea formControlName="description" matInput></textarea>
     </mat-form-field>
 
+    <div>
+        <button color="primary" type="button" mat-raised-button (click)="fileInput.click()">
+            <mat-icon aria-hidden="false" fontIcon="image"></mat-icon>
+            <span>Choose Image</span>
+        </button>
+        <input hidden (change)="onFileSelected($event)" #fileInput type="file" id="file">
+    </div>
+
     <mat-checkbox formControlName="inStock" color="primary">In Stock</mat-checkbox>
 
     <div class="buttons-block">
