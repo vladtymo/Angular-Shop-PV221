@@ -3,7 +3,7 @@ import { ProductModel } from './products';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-const api = "https://localhost:7206/api/products"; //"https://dummyjson.com/products";
+const api = "https://localhost:7206/api/products/"; //"https://dummyjson.com/products";
 
 @Injectable({
   providedIn: 'root'
@@ -25,9 +25,8 @@ export class ProductsService {
     console.log("Creating product:", item);
   }
 
-  delete(id: number): void {
-    // TODO: refactor api path
-    //this.http.delete(api + "products/delete" + id);
+  delete(id: number): Observable<any> {
     console.log("Deleting product id: " + id);
+    return this.http.delete(api + id);
   }
 }

@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { MatTableModule } from '@angular/material/table';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { ProductsService } from '../../services/products.service';
 import { ProductModel } from '../../services/products';
 import { MatIconModule } from '@angular/material/icon';
@@ -18,20 +18,33 @@ import { Router } from '@angular/router';
 export class ProductsListComponent implements OnInit {
   displayedColumns: string[] = ["image", "id", "name", "price", "rating", "actions"];
   products: ProductModel[] = [];
+  tableSource = new MatTableDataSource<ProductModel>([]);
 
   constructor(private productsService: ProductsService,
     public dialog: MatDialog,
-    private router: Router) { }
+    private router: Router,
+    private changeDetectorRefs: ChangeDetectorRef) { }
 
   ngOnInit(): void {
-    this.productsService.getAll().subscribe(res => this.products = res);
+    this.productsService.getAll().subscribe(res => {
+      this.products = res;
+      this.refreshTable();
+    });
   }
 
   onDelete(id: number): void {
     // open confirmation dialog
     this.openConfirmDialog().afterClosed().subscribe(res => {
       if (res === true)
-        this.productsService.delete(id);
+        this.productsService.delete(id).subscribe(res => {
+
+          const index = this.products.findIndex(x => x.id === id);
+
+          console.log(index);
+          this.products.splice(index, 1);
+          console.log(this.products);
+          this.refreshTable();
+        });
     });
   }
 
@@ -42,5 +55,9 @@ export class ProductsListComponent implements OnInit {
 
   openConfirmDialog() {
     return this.dialog.open(DeleteConfirmationDialogComponent);
+  }
+
+  refreshTable() {
+    this.tableSource.data = this.products;
   }
 }
