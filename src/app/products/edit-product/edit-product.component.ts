@@ -50,12 +50,12 @@ export class EditProductComponent implements OnInit {
       console.log(res);
 
       this.form.setValue({
-        name: res.title,
+        name: res.name,
         price: res.price,
-        discount: res.discountPercentage,
-        categoryId: 0,
+        discount: res.discount,
+        categoryId: res.categoryId,
         description: res.description,
-        inStock: false
+        inStock: res.inStock
       });
     });
   }

@@ -1,16 +1,18 @@
 export interface ProductModel {
     id: number;
-    title: string;
+    name: string;
     categoryId: number;
-    discountPercentage: number;
+    categoryName: string;
+    discount: number;
     price: number;
-    thumbnail: string | null;
+    imageUrl: string | null;
     description: string | null;
+    inStock: boolean;
 }
 
-export interface ProductResponseModel {
-    products: ProductModel[];
-    limit: number;
-    skip: number;
-    total: number;
-}
+// export interface ProductResponseModel {
+//     products: ProductModel[];
+//     limit: number;
+//     skip: number;
+//     total: number;
+// }

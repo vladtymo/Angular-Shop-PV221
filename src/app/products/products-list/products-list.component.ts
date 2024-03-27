@@ -24,7 +24,7 @@ export class ProductsListComponent implements OnInit {
     private router: Router) { }
 
   ngOnInit(): void {
-    this.productsService.getAll().subscribe(res => this.products = res.products);
+    this.productsService.getAll().subscribe(res => this.products = res);
   }
 
   onDelete(id: number): void {
