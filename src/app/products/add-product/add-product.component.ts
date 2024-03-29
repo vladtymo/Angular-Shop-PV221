@@ -35,11 +35,11 @@ export class AddProductComponent implements OnInit {
     private location: Location) {
 
     this.form = this.fb.group({
-      name: [''],
-      price: [0],
-      discount: [0],
-      description: [''],
-      categoryId: [0],
+      name: ['', Validators.required],
+      price: [0, [Validators.required, Validators.min(0)]],
+      discount: [0, [Validators.required, Validators.min(0), Validators.max(100)]],
+      description: ['', Validators.minLength(10)],
+      categoryId: [0, [Validators.required, Validators.min(1)]],
       inStock: [false],
       image: [null, Validators.required]
     });
@@ -50,8 +50,10 @@ export class AddProductComponent implements OnInit {
   }
 
   onSubmit(): void {
-    if (!this.form.valid) return;
-
+    if (!this.form.valid) {
+      alert("Invalid data!")
+      return;
+    }
     const item = this.form.value as CreateProductModel;
     this.service.create(item).subscribe(res => {
       console.log(res);
