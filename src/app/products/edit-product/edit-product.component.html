@@ -5,6 +5,11 @@
     <span>Edit Product</span>
 </h1>
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+    <div class="product-image">
+        <img height="200" src="{{product?.imageUrl}}" alt="{{product?.name}}">
+    </div>
+
     <mat-form-field>
         <mat-label>Name</mat-label>
         <input formControlName="name" required matInput placeholder="Enter product name">
