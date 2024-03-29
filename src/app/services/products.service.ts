@@ -21,7 +21,11 @@ export class ProductsService {
   }
 
   get(id: number): Observable<ProductModel> {
-    return this.http.get<ProductModel>(api + "/" + id);
+    return this.http.get<ProductModel>(api + id);
+  }
+
+  edit(model: ProductModel): Observable<any> {
+    return this.http.put<ProductModel>(api, model); // [FromBody]
   }
 
   create(item: CreateProductModel): Observable<any> {
@@ -34,7 +38,7 @@ export class ProductsService {
     }
 
     const headers = new HttpHeaders({ 'enctype': 'multipart/form-data' });
-    return this.http.post(api, formData, { headers: headers });
+    return this.http.post(api, formData, { headers: headers }); // [FromForm]
   }
 
   delete(id: number): Observable<any> {

@@ -4,9 +4,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button';
-import { FormBuilder, FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ProductsService } from '../../services/products.service';
-import { ProductModel } from '../../services/products';
+import { CategoryModel, ProductModel } from '../../services/products';
 import { MatIconModule } from '@angular/material/icon';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
@@ -27,36 +27,41 @@ import { ActivatedRoute } from '@angular/router';
   styleUrl: './edit-product.component.css'
 })
 export class EditProductComponent implements OnInit {
-  form = this.fb.group({
-    name: [''],
-    price: [0],
-    discount: [0],
-    description: [''],
-    categoryId: [0],
-    inStock: [false]
-  });
+
+  form: FormGroup;
   id: number = 0;
+  product: ProductModel | null = null;
+  categories: CategoryModel[] = [];
 
   constructor(private fb: FormBuilder,
     private service: ProductsService,
     private location: Location,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute) {
+
+    this.form = this.fb.group({
+      id: [0, Validators.required],
+      name: ['', Validators.required],
+      price: [0, [Validators.required, Validators.min(0)]],
+      discount: [0, [Validators.required, Validators.min(0)]],
+      description: ['', Validators.minLength(10)],
+      categoryId: [0, [Validators.required, Validators.min(1)]],
+      inStock: [false],
+      imageUrl: ['', Validators.required],
+      categoryName: ['']
+    });
+  }
 
   ngOnInit(): void {
 
-    this.id = +(this.route.snapshot.paramMap.get('id') ?? 0);
+    this.id = Number(this.route.snapshot.paramMap.get('id'));
+
+    this.service.getCategories().subscribe(res => this.categories = res);
 
     this.service.get(this.id).subscribe(res => {
       console.log(res);
 
-      this.form.setValue({
-        name: res.name,
-        price: res.price,
-        discount: res.discount,
-        categoryId: res.categoryId,
-        description: res.description,
-        inStock: res.inStock
-      });
+      this.product = res;
+      this.form.setValue(res);
     });
   }
 
@@ -64,10 +69,15 @@ export class EditProductComponent implements OnInit {
     if (!this.form.valid) return;
 
     const item = this.form.value as ProductModel;
-    //this.service.edit(item);
+    this.service.edit(item).subscribe();
   }
 
   back(): void {
     this.location.back();
+  }
+
+  onCancel() {
+    if (this.product)
+      this.form.setValue(this.product);
   }
 }
