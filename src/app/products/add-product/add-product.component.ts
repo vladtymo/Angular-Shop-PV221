@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
@@ -7,7 +7,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button';
 import { FormBuilder, FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ProductsService } from '../../services/products.service';
-import { CreateProductModel, ProductModel } from '../../services/products';
+import { CategoryModel, CreateProductModel, ProductModel } from '../../services/products';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
@@ -25,7 +25,7 @@ import { MatIconModule } from '@angular/material/icon';
   templateUrl: './add-product.component.html',
   styleUrl: './add-product.component.css'
 })
-export class AddProductComponent {
+export class AddProductComponent implements OnInit {
   form = this.fb.group({
     name: [''],
     price: [0],
@@ -36,9 +36,15 @@ export class AddProductComponent {
     image: [null, Validators.required]
   });
 
+  categories: CategoryModel[] = [];
+
   constructor(private fb: FormBuilder,
     private service: ProductsService,
     private location: Location) { }
+
+  ngOnInit(): void {
+    this.service.getCategories().subscribe(res => this.categories = res);
+  }
 
   onSubmit(): void {
     if (!this.form.valid) return;
@@ -46,6 +52,7 @@ export class AddProductComponent {
     const item = this.form.value as CreateProductModel;
     this.service.create(item).subscribe(res => {
       console.log(res);
+      this.back();
     });
   }
 
