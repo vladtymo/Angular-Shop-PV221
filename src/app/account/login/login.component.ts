@@ -13,6 +13,7 @@ import { Location } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { LoginModel } from '../account';
 import { AccountsService } from '../../services/accounts.service';
+import { TokensService } from '../../services/tokens.service';
 
 @Component({
   selector: 'app-login',
@@ -37,6 +38,7 @@ export class LoginComponent {
   form: FormGroup;
   constructor(fb: FormBuilder,
     private location: Location,
+    private tokenService: TokensService,
     private service: AccountsService) {
     this.form = fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -58,7 +60,7 @@ export class LoginComponent {
     this.service.login(model).subscribe(res => {
       console.log(res);
 
-      //this.tokenService.saveToken(res.accessToken, res.refreshToken);
+      this.tokenService.saveTokens(res.accessToken, res.refreshToken);
       // TODO: navigate to home page
     });
   }
