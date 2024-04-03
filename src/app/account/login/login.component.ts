@@ -10,7 +10,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { CategoryModel, ProductModel } from '../../services/products';
 import { ProductsService } from '../../services/products.service';
 import { Location } from '@angular/common';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { LoginModel } from '../account';
 import { AccountsService } from '../../services/accounts.service';
 import { TokensService } from '../../services/tokens.service';
@@ -39,6 +39,7 @@ export class LoginComponent {
   constructor(fb: FormBuilder,
     private location: Location,
     private tokenService: TokensService,
+    private router: Router,
     private service: AccountsService) {
     this.form = fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -61,7 +62,7 @@ export class LoginComponent {
       console.log(res);
 
       this.tokenService.saveTokens(res.accessToken, res.refreshToken);
-      // TODO: navigate to home page
+      this.router.navigate(['/']);
     });
   }
 }

@@ -1,3 +1,4 @@
+import { AccountsService } from './../services/accounts.service';
 import { Component } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -13,4 +14,10 @@ import { RouterLink } from '@angular/router';
 })
 export class HeaderComponent {
 
+  constructor(public accountsService: AccountsService) { }
+
+  onLogout() {
+    this.accountsService.logout().subscribe();
+    window.location.reload();
+  }
 }

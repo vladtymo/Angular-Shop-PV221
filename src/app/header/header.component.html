@@ -13,8 +13,17 @@
         </button>
 
         <div class="separator"></div>
+
+        @if(!accountsService.isAuthenticated()) {
         <button mat-icon-button routerLink="/login">
             <mat-icon>login</mat-icon>
         </button>
+        }
+        @else {
+        <span>Hello, {{accountsService.getUserEmail()}}</span>
+        <button mat-icon-button (click)="onLogout()">
+            <mat-icon>logout</mat-icon>
+        </button>
+        }
     </mat-toolbar>
 </header>
